@@ -1,1 +1,0 @@
-/interact/version/1/account/tenantId/chat/interactionInstanceId/message?_=1397814255964

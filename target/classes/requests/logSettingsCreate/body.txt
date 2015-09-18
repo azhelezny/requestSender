@@ -1,7 +1,0 @@
-{
-   "logLevel":"ERROR",
-   "thirdPartyLevels":
-      {
-       "org:springframework":"ERROR"
-      }
-}

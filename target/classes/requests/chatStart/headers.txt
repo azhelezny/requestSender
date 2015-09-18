@@ -1,3 +1,0 @@
-User-Id: 9e20b0a7-ec00-49d8-8a23-10b99e064fd3
-Security-Token: undefined
-Chat-Service-Queue: myskill

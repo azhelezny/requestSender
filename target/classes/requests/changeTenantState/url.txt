@@ -1,1 +1,0 @@
-/interact/tenant/tenantId/enabled/false

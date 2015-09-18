@@ -1,9 +1,0 @@
-Host: interact-win:8080
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Access-Token: securityToken
-Content-Length: 0
-Content-Type: application/json; charset=UTF-8
-Accept-Language: null
-Connection: keep-alive
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:21.0) Gecko/20100101 Firefox/21.0
-Accept-Encoding: gzip, deflate

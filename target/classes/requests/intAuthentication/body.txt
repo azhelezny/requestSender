@@ -1,5 +1,0 @@
-{
-   "userName":"jaadmin@jacada.ru",
-   "password":"Jacada2013!@",
-   "tenantName":"12345678"
-}
