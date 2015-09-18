@@ -1,0 +1,11 @@
+{
+  "description" : "newDescription",
+  "category": {
+    "description": "mewCategoryDescription",
+    "id": "newCategoryId",
+    "name": "newCategoryName"
+    },
+  "name":"name",
+  "dateModified": 100,
+  "deviceImages": []
+}

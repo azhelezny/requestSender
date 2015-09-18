@@ -1,0 +1,57 @@
+package request;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.ResponseErrorHandler;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+public class RequestSender
+{
+	private RestTemplate restTemplate;
+	HttpEntity<String> request;
+	HttpEntity<byte []> binaryRequest;
+	private RequestStructure requestStructure;
+	
+	public RequestSender(RequestStructure structure) throws IOException
+	{
+		requestStructure = structure;
+		if(!requestStructure.isBynaryBody()) 
+			request = new HttpEntity<String>(requestStructure.getBody(), requestStructure.getHeadersAsHttpHeaders());
+		else
+			binaryRequest = new HttpEntity<byte []>(requestStructure.getBinaryBody(), requestStructure.getHeadersAsHttpHeaders());
+	}
+	
+	public ResponseEntity<String> execute() throws IOException
+	{
+		restTemplate = new RestTemplate();
+		restTemplate.setErrorHandler(new ResponseErrorHandler()
+		{
+			@Override
+			public boolean hasError(ClientHttpResponse response) 
+			{
+				return false;
+			}
+			@Override
+			public void handleError(ClientHttpResponse response) 
+			{
+			}
+		});
+		try
+		{
+			if(!requestStructure.isBynaryBody())
+				return this.restTemplate.exchange(new URI(requestStructure.getUrl()), requestStructure.getMethod(), request, String.class);
+			else
+				return this.restTemplate.exchange(new URI(requestStructure.getUrl()), requestStructure.getMethod(), binaryRequest, String.class);
+		} catch (RestClientException | URISyntaxException e)
+		{
+			throw new IOException(e);
+		}
+	}
+
+}

@@ -1,0 +1,21 @@
+{
+  "name":"jauser@jacada.ru",
+  "password":"Jacada2013!@",
+  "userRole":"ROLE_INTERACTION_ADMIN",
+  "description": "created user's description",
+  "enabled":true,
+  "firstName":"Created",
+  "lastName":"Created",
+  "email":"created@test.edu",
+  "alias":"drish",
+  "title":"drish",
+  "department":"AQA",
+  "division":"I don't understand",
+  "phone":"323 46 45 781",
+  "ext":"2102",
+  "mobile":"323 46 45 781",
+  "fax":"65564",
+  "displayLanguage":"Ukrainian",
+  "defaultTimeZone":"GMT+4",
+  "locale":"Ukrainian"
+}

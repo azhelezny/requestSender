@@ -1,0 +1,11 @@
+{
+  "navigationType":"NEXT",
+  "objectID": "objectId",
+  "variableSet": "agentInfoSet",
+  "param":[
+     { 
+       "paramName":"objectID",
+       "paramValue":"enteredValue"
+     }
+   ]
+}

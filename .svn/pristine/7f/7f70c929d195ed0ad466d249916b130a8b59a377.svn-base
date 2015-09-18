@@ -1,0 +1,165 @@
+package utils;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+public class Utils
+{
+	public static byte [] readBinaryFile(File file)
+	{
+		int length = (int)file.length();
+		if(length <= 0)
+		{
+			JOptionPane.showMessageDialog(null, "File "+file.getAbsolutePath()+" is empty or doesn't exist");
+			return null;
+		}
+		byte [] binaryBody = new byte [length];
+		InputStream input = null;
+		int totalBytesRead = 0;
+		try
+		{
+			input = new BufferedInputStream(new FileInputStream(file));
+			while(totalBytesRead < length)
+			{
+				int bytesRemaining = length - totalBytesRead;
+				int bytesRead = input.read(binaryBody,totalBytesRead, bytesRemaining);
+				if(bytesRead > 0 )
+					totalBytesRead = totalBytesRead + bytesRead;
+			}
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		return binaryBody;
+	}
+	
+	public static List<String> getReportsRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("interactionHistoryReport");
+		retVal.add("transactionReportPerTenant");
+		return retVal;
+	}
+	
+	public static List<String> getImagesRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("imageCreateMetadata");
+		retVal.add("imageUpdateMetadata");
+		retVal.add("imageCreateDeviceObject");
+		retVal.add("imageUpdateDeviceObject");
+		retVal.add("imageCreateBitmap");
+		retVal.add("imageUpdateBitmap");
+		return retVal;
+	}
+	
+	public static List<String> getInteractioRuntimeRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("getInteractionsList");
+		retVal.add("createInteraction");
+		retVal.add("navigationCurrent");
+		retVal.add("navigationNext");
+		retVal.add("navigationBack");
+		retVal.add("navigationBackParam");
+		retVal.add("navigationFinish");
+		return retVal;
+	}
+	
+	public static List<String> getInteractioApiRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("authentication");
+		retVal.add("validation");
+		retVal.add("intApprove");
+		retVal.add("intDraft");
+		retVal.add("intDeleteInteractionByDesignerId");
+		retVal.add("intUpdateInteractionHeader");
+		retVal.add("intGetAll");
+		retVal.add("intGetInteraction");
+		retVal.add("intFindAllHeaders");
+		retVal.add("intFindAllHeadersDeleted");
+		retVal.add("intFindHeadersByPatternAndState");
+		retVal.add("intFindHeadersDeletedByName");
+		retVal.add("intFindHeaderByDesignerIdAndVersion");
+		retVal.add("intFindInteractionByDesignerIdAndVersion");
+		retVal.add("intDownloadInteraction");
+		retVal.add("intGetPublicExecutionLink");
+		retVal.add("intGetExecutionLink");
+		return retVal;
+	}
+	
+	public static List<String> getUserManagementRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("createUser");
+		retVal.add("listOfUsers");
+		retVal.add("listOfTenants");
+		retVal.add("editUser");
+		retVal.add("deleteUser");
+		retVal.add("getCurrentUser");
+		retVal.add("createTenant");
+		retVal.add("updateTenant");
+		retVal.add("getTenant");
+		retVal.add("deleteTenant");
+		retVal.add("changeTenantState");
+		return retVal;
+	}
+	
+	public static List<String> getVariablesRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("getVariables");
+		retVal.add("addVariable");
+		retVal.add("updateVariable");
+		retVal.add("deleteVariable");
+		retVal.add("getVariablesSetData");
+		retVal.add("getServerVariablesXml");
+		return retVal;
+	}
+	
+	public static List<String> getAppKeyRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("createAppKey");
+		retVal.add("oAuthLoginRequest");
+		retVal.add("accessTokenRequest");
+		return retVal;
+	}
+	
+	public static List<String> getInteractioPointsRequests()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("createRestIp");
+		retVal.add("updateRestIp");
+		retVal.add("createWsdlIp");
+		retVal.add("updateWsdlIp");
+		return retVal;
+	}
+	
+	public static String getApplicationKey()
+	{
+		return "webclientappkey";
+	}
+	
+	public static List<String> getPredefinedServers()
+	{
+		List<String> retVal = new ArrayList<String>();
+		retVal.add("http://172.23.33.48:8080");
+		retVal.add("http://23.23.154.19:80");
+		retVal.add("http://172.23.33.35:8080");
+		retVal.add("http://54.235.121.160:8080");
+		retVal.add("http://172.23.33.36:8080");
+		retVal.add("http://172.23.33.33:8080");
+		retVal.add("http://172.23.38.38:8080");
+		return retVal;
+	}
+}

@@ -1,0 +1,1 @@
+/ws_rest/interaction/interactionId

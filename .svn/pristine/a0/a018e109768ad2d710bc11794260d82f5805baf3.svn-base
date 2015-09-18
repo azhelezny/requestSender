@@ -1,0 +1,13 @@
+{
+   "navigationType": "RELOAD_INSTANCE",
+      "variables": {
+         "MyBoolean": true,
+         "MyString": "wtf",
+         "MyNumber": 1050,
+         "DTMF":"12345"
+      },
+   "param": [{
+      "paramName": "objectID",
+      "paramValue": "enteredValue"
+   }]
+}

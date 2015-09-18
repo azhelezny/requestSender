@@ -1,0 +1,15 @@
+{
+  "name": "1234",
+  "organizationId": "JACADA_DEF",
+  "primaryContact": "Adva Rotstein",
+  "mainAddress": "11 Shankar St. Ent. 4, PO 12175, Herzliya Pituach 46725, Israel",
+  "description": "Owner",
+  "phoneNumber": "+972 (0)9 952-5900",
+  "faxNumber": "+972 (0)9 952-5959",
+  "webSite": "http://www.jacada.com",
+  "displayLanguage": "English",
+  "defaultTimeZone": "GMT+02",
+  "upgradeUrlForIOS": "http://itunes.com/apps/jma-client",
+  "upgradeUrlForAndroid": "https://market.android.com/details?id=jma-client",
+  "enabled": true
+}

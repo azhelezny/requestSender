@@ -1,0 +1,11 @@
+{
+    "description": "description",
+    "category": {
+        "description": "categoryDescription",
+        "id": "categoryId",
+        "name": "categoryName"
+    },
+    "name": "name",
+    "dateModified": 0,
+    "deviceImages":[]
+}

@@ -1,0 +1,19 @@
+{
+    "id" : "headerId",
+    "name" : "headerHame",
+    "tenantId" : "518245718e5a6b315ed823cc",
+    "designerId" : "1367572151795-749342ebfd1c057eb1b7fd3eb6c13e69a60fc8-7d12",
+    "bodyId" : "51838b18e383e1f76fb47ddc",
+    "userId" : "518245718e5a6b315ed823ce",
+    "author" : "Anonymous",
+    "state" : "DRAFT",
+    "creationDate" : 1367572151795,
+    "modificationDate" : 1367575291019,
+    "lastModified" : 1367575291019,
+    "description" : "headerDescription",
+    "defaultSaveName" : "",
+    "xLocation" : 0,
+    "yLocation" : 0,
+    "interactionType" : "SMARTPHONE",
+    "securityType" : "OPEN"
+}

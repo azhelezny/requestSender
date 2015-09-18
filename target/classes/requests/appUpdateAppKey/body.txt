@@ -1,0 +1,12 @@
+{
+ "id" : "appKeyId",
+ "name": "webclientappkeyUpdated",
+ "accessTokenUri": "http://interact-win:8080/as_auth/oauth/login",
+ "clientAuthenticationScheme": "form",
+ "clientId": "webclientappkeyUpdated",
+ "enabled": true,
+ "grantType": "unsupported",
+ "internalTimeout": 600,
+ "redirectUrl": "http://redirect.com",
+ "channelType": "WEB_SELF_SERVICE"
+}

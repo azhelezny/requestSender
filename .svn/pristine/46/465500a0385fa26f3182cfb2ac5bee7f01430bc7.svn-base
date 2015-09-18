@@ -1,0 +1,12 @@
+{
+  "deviceId" : "deviceId",
+  "deviceName": "deviceName",
+  "size": 
+    {
+      "width": 100,
+      "height": 200
+    } 
+  "dateModified": 0,
+  "modifiedBy": "modifiedBy",
+  "userName": "userName"
+}

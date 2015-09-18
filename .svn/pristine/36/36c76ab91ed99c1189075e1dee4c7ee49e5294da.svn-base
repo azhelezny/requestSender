@@ -1,0 +1,23 @@
+{
+	"id": "513de1394fd7efef23c2a451",
+	"name": "Edited",
+	"password": "User",
+	"description": "With description",
+	"lastModified" : 1367575291019,
+	"enabled": false,
+	"admin": false,
+	"firstName": "Updated",
+	"lastName": "User",
+	"email": "user@test.edu",
+	"alias": "pish",
+	"title": "pish",
+	"department": "QA",
+	"division": "WTF is this?",
+	"phone": "067 95 73 002",
+	"ext": "2001",
+	"mobile": "067 95 73 002",
+	"fax": "123456789",
+	"displayLanguage": "Spanish",
+	"defaultTimeZone": "GMT+3",
+	"locale": "Spanish"
+}

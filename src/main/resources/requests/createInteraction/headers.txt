@@ -1,0 +1,43 @@
+IMEI: 000000000000000
+Device-Platform: Full Android on x86 Emulator
+Device-Os: Android
+ICCID: 89014103211118510720
+Device-Serial-ID: unknown
+Device-OS-Version: 2.3.7
+Screen-Width: 480
+Screen-Height: 800
+Screen-DPI: 160
+Time-Stamp: 1362068353075
+request-TimeStamp: 1362068353075
+Time-Zone: Eastern European Time
+Wifi: false
+Latitude: 0.0
+Longitude: 0.0
+Altitude: 0.0
+Accuracy: 0.0
+Bearing: 0.0
+Speed: 0.0
+IMSI: 310260000000000
+Sim-State: Ready
+Brand: Android
+Manufacturer: unknown
+AndroidId: 9ed2fcef6cfcf2f7
+Camera-Is-Available: true
+JMA-Version: 7.0.0.15
+Jma-Module-Version: 7
+Protocol-Version: 3
+Locale: en-US
+Object-Version: 
+Object-Step-Id: 
+Content-Type: application/json; charset=utf-8
+Accept: application/json
+Debug-Mode: true
+Application-Id: jmaTest
+Application-Version: 7.0.0.15-7
+Space-Id: jaadmin@jacada.ru
+User-Agent: MobileOS
+Content-Length:2
+Host: 172.23.33.43:8080
+Connection: Keep-Alive
+Access-Token: accessToken
+Channel-Type: MOBILE_WEB

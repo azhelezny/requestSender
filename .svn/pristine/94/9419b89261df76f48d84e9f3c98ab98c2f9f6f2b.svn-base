@@ -1,0 +1,559 @@
+package ui;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.text.ParseException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
+import json.Formatter;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.web.client.HttpClientErrorException;
+
+import request.RequestSender;
+import request.RequestStructure;
+import responce.ResponceStructure;
+import text.data.TextData;
+import utils.Utils;
+
+public class Ui extends JFrame
+{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2669800895909059399L;
+	
+	private JButton sendButton;
+	private JButton formatJson;
+	private JButton applySecurityToken;
+	private JButton applyObjectInstance;
+	private JButton applyObjectId;
+	private JButton applyVersionId;
+	private JButton applyStepId;
+	private JButton applyApplicationKey;
+	private JButton showHelpWindow;
+	private JButton browseFs;
+	private JButton applyBinaryBody;
+	
+	private JTextArea headersField;
+	private JScrollPane scrollHeaders;
+	private JTextArea bodyField;
+	private JScrollPane scrollBody;
+	private JTextArea responceHeadersField;
+	private JScrollPane scrollResponceHeaders;
+	private JTextArea responceBodyField;
+	private JScrollPane scrollResponceBody;
+	private JTextField url;
+	private JTextField pathToBinaryFile;
+	
+	private JCheckBox binaryBodyMode;
+	private JCheckBox prefixChecked;
+	private JComboBox<String> prefix;
+	private JComboBox<HttpMethod> method;
+	private JComboBox<String> reportsApi;
+	private JComboBox<String> interactionRuntimeApi;
+	private JComboBox<String> interactionApi;
+	private JComboBox<String> userManagementApi;
+	private JComboBox<String> variablesApi;
+	private JComboBox<String> appKeyApi;
+	private JComboBox<String> interactionPointsApi;
+	private JComboBox<String> imagesApi;
+	
+	private JPanel lowPanel;
+	private JPanel bottomPanel;
+
+	private String securityToken;
+	private String objectVersion;
+	private String objectId;
+	private String objectInstanceId;
+	private String objectStepId;
+	
+	private byte [] binaryBody = null;
+
+	private HelpWindow helpWindow;
+
+	private void setBinaryPanelTitle()
+	{
+		String binaryPanelTitle = "Binary body mode [%s], binary body %s [%s]"; // mode = "on/off", body = "is selected/isn't selected"
+		String onOff = (binaryBodyMode.isSelected()) ? "On":"Off";
+		String sNs = (binaryBody == null)?"isn't selected":"is selected";
+		String filePath = (pathToBinaryFile.getText().isEmpty() || binaryBody == null)?"Unknown":pathToBinaryFile.getText();
+		bottomPanel.setBorder(BorderFactory.createTitledBorder(String.format(binaryPanelTitle, onOff, sNs, filePath)));
+	}
+	
+	public Ui()
+	{
+		helpWindow = new HelpWindow();
+
+		this.setTitle("Request sender");
+		BufferedImage image = null;
+        try {
+            image = ImageIO.read(this.getClass().getResource("/images/blazon.jpg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.setIconImage(image);
+		// Instantiation
+		sendButton = new JButton("Send");
+		applySecurityToken = new JButton("Security token");
+		applySecurityToken.setEnabled(false);
+		applyObjectInstance = new JButton("Instance ID");
+		applyObjectInstance.setEnabled(false);
+		applyObjectId = new JButton("Object ID");
+		applyObjectId.setEnabled(false);
+		applyVersionId = new JButton("Version ID");
+		applyVersionId.setEnabled(false);
+		applyStepId = new JButton("Step ID");
+		applyStepId.setEnabled(false);
+		formatJson = new JButton("Format JSON");
+		showHelpWindow = new JButton("HelpWindow");
+		applyApplicationKey = new JButton("Application key");
+		headersField = new JTextArea();
+		responceHeadersField = new JTextArea();
+		responceBodyField = new JTextArea();
+		bodyField = new JTextArea();
+		url = new JTextField();
+		prefixChecked = new JCheckBox();
+		prefixChecked.setSelected(true);
+		binaryBodyMode = new JCheckBox();
+		binaryBodyMode.setSelected(false);
+		pathToBinaryFile = new JTextField();
+		browseFs = new JButton("Browse");
+		applyBinaryBody = new JButton("Apply");
+		// Customizing
+		JPanel urlPanel = new JPanel(new BorderLayout());
+		urlPanel.add(url);
+		urlPanel.setBorder(BorderFactory.createTitledBorder("Url"));
+
+		headersField.setEditable(true);
+		headersField.setLineWrap(true);
+		scrollHeaders = new JScrollPane(headersField);
+		scrollHeaders.setBorder(BorderFactory.createTitledBorder("Headers"));
+		bodyField.setEditable(true);
+		bodyField.setLineWrap(true);
+		scrollBody = new JScrollPane(bodyField);
+		scrollBody.setBorder(BorderFactory.createTitledBorder("Body"));
+		responceHeadersField.setEditable(false);
+		responceHeadersField.setLineWrap(true);
+		scrollResponceHeaders = new JScrollPane(responceHeadersField);
+		scrollResponceHeaders.setBorder(BorderFactory.createTitledBorder("Responce headers"));
+		responceBodyField.setEditable(false);
+		responceBodyField.setLineWrap(true);
+		scrollResponceBody = new JScrollPane(responceBodyField);
+		scrollResponceBody.setBorder(BorderFactory.createTitledBorder("Responce body"));
+
+		method = new JComboBox<HttpMethod>();
+		method.addItem(HttpMethod.GET);
+		method.addItem(HttpMethod.POST);
+		method.addItem(HttpMethod.PUT);
+		method.addItem(HttpMethod.DELETE);
+		method.addItem(HttpMethod.OPTIONS);
+		method.setBorder(BorderFactory.createTitledBorder("Method"));
+
+		prefix = new JComboBox<String>();
+		for (String item : Utils.getPredefinedServers())
+			prefix.addItem(item);
+
+		reportsApi = new JComboBox<String>();
+		for (String item : Utils.getReportsRequests())
+			reportsApi.addItem(item);
+		reportsApi.setBorder(BorderFactory.createTitledBorder("Reports API"));
+		reportsApi.addActionListener(new RequestExampleAction());
+
+		interactionRuntimeApi = new JComboBox<String>();
+		for (String item : Utils.getInteractioRuntimeRequests())
+			interactionRuntimeApi.addItem(item);
+		interactionRuntimeApi.setBorder(BorderFactory.createTitledBorder("JMA actions"));
+		interactionRuntimeApi.addActionListener(new RequestExampleAction());
+
+		interactionApi = new JComboBox<String>();
+		for (String item : Utils.getInteractioApiRequests())
+			interactionApi.addItem(item);
+		interactionApi.setBorder(BorderFactory.createTitledBorder("Interactions API"));
+		interactionApi.addActionListener(new RequestExampleAction());
+
+		userManagementApi = new JComboBox<String>();
+		for (String item : Utils.getUserManagementRequests())
+			userManagementApi.addItem(item);
+		userManagementApi.setBorder(BorderFactory.createTitledBorder("User/Tenant management"));
+		userManagementApi.addActionListener(new RequestExampleAction());
+
+		variablesApi = new JComboBox<String>();
+		for (String item : Utils.getVariablesRequests())
+			variablesApi.addItem(item);
+		variablesApi.setBorder(BorderFactory.createTitledBorder("Variables API"));
+		variablesApi.addActionListener(new RequestExampleAction());
+
+		appKeyApi = new JComboBox<String>();
+		for (String item : Utils.getAppKeyRequests())
+			appKeyApi.addItem(item);
+		appKeyApi.setBorder(BorderFactory.createTitledBorder("AppKey API"));
+		appKeyApi.addActionListener(new RequestExampleAction());
+		
+		interactionPointsApi = new JComboBox<String>();
+		for (String item : Utils.getInteractioPointsRequests())
+			interactionPointsApi.addItem(item);
+		interactionPointsApi.setBorder(BorderFactory.createTitledBorder("Interaction Points API"));
+		interactionPointsApi.addActionListener(new RequestExampleAction());
+		
+		imagesApi = new JComboBox<String>();
+		for (String item : Utils.getImagesRequests())
+			imagesApi.addItem(item);
+		imagesApi.setBorder(BorderFactory.createTitledBorder("Images API"));
+		imagesApi.addActionListener(new RequestExampleAction());
+
+		sendButton.addActionListener(new SendRequestAction());
+		sendButton.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "pressed"); //TODO create hotkey
+		
+		formatJson.addActionListener(new JsonFormat());
+		applySecurityToken.addActionListener(new UseSecurityToken());
+		applyStepId.addActionListener(new UseObjectStepId());
+		applyVersionId.addActionListener(new UseObjectVersion());
+		applyObjectId.addActionListener(new UseObjectId());
+		applyObjectInstance.addActionListener(new UseObjectInstanceId());
+		applyApplicationKey.addActionListener(new ApplyApplicationKey());
+		showHelpWindow.addActionListener(new ShowHelpWindow());
+		browseFs.addActionListener(new BrowseFileSystem());
+		applyBinaryBody.addActionListener(new ApplyBinaryFile());
+		
+		binaryBodyMode.addActionListener(new ChangeBodyMode());
+
+		setLayout(new BorderLayout());
+
+		JPanel topPanel = new JPanel(new BorderLayout(2, 1));
+		JPanel highPanel = new JPanel();
+		highPanel.setLayout(new GridLayout(2, 1));
+
+		JPanel prefixPanel = new JPanel();
+		prefixPanel.setLayout(new BoxLayout(prefixPanel, BoxLayout.LINE_AXIS));
+		prefixPanel.setBorder(BorderFactory.createTitledBorder("Url prefix"));
+		prefixPanel.setPreferredSize(new Dimension(250, 0));
+		prefixPanel.add(prefixChecked);
+
+		prefixPanel.add(prefix);
+
+		JPanel urlMethodPanel = new JPanel();
+		urlMethodPanel.setLayout(new BorderLayout(2, 1));
+		urlMethodPanel.add(method, BorderLayout.WEST);
+		urlMethodPanel.add(prefixPanel, BorderLayout.EAST);
+		urlMethodPanel.add(urlPanel, BorderLayout.CENTER);
+
+		JPanel examplesPanel = new JPanel();
+		examplesPanel.setLayout(new GridLayout(1, 5));
+		examplesPanel.add(interactionApi);
+		examplesPanel.add(interactionRuntimeApi);
+		examplesPanel.add(userManagementApi);
+		examplesPanel.add(variablesApi);
+		examplesPanel.add(appKeyApi);
+		examplesPanel.add(interactionPointsApi);
+		examplesPanel.add(reportsApi);
+		examplesPanel.add(imagesApi);
+		
+		highPanel.add(urlMethodPanel);
+		highPanel.add(examplesPanel);
+
+		topPanel.add(highPanel, BorderLayout.NORTH);
+
+		lowPanel = new JPanel();
+		lowPanel.setLayout(new GridLayout(1, 3));
+		lowPanel.setBorder(BorderFactory.createTitledBorder("Choose request"));
+		JPanel lP1 = new JPanel();
+		JPanel lP2 = new JPanel();
+		lP1.setLayout(new GridLayout(1, 3));
+		lP2.setLayout(new GridLayout(1, 4));
+		lP1.add(sendButton);
+		lP1.add(applyApplicationKey);
+		lP1.add(applySecurityToken);
+		lP2.add(applyObjectInstance);
+		lP2.add(applyObjectId);
+		lP2.add(applyStepId);
+		lP2.add(applyVersionId);
+
+		lowPanel.add(lP1);
+		lowPanel.add(lP2);
+		JPanel lP3 = new JPanel(new GridLayout(1, 2));
+		lP3.add(showHelpWindow);
+		lP3.add(formatJson);
+		lowPanel.add(lP3);
+
+		topPanel.add(lowPanel, BorderLayout.CENTER);
+
+		add(topPanel, BorderLayout.NORTH);
+
+		JPanel centerPanel = new JPanel(new GridLayout(2, 2));
+		centerPanel.add(scrollHeaders);
+		centerPanel.add(scrollResponceHeaders);
+		centerPanel.add(scrollBody);
+		centerPanel.add(scrollResponceBody);
+
+		add(centerPanel, BorderLayout.CENTER);
+		
+		bottomPanel = new JPanel();
+		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.LINE_AXIS));
+		setBinaryPanelTitle();
+		bottomPanel.add(pathToBinaryFile);
+		bottomPanel.add(binaryBodyMode);
+		bottomPanel.add(browseFs);
+		bottomPanel.add(applyBinaryBody);
+		
+		add(bottomPanel, BorderLayout.SOUTH);
+	}
+	
+	
+	private class SendRequestAction implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			RequestStructure requestStructure = null;
+			ResponceStructure response = null;
+			try
+			{
+				responceHeadersField.setText("");
+				responceBodyField.setText("");
+				requestStructure = new RequestStructure(url.getText(), method.getSelectedItem(), headersField.getText(),bodyField.getText());
+				if(binaryBodyMode.isSelected())
+				{
+					if(binaryBody != null)
+					{
+						requestStructure.setBynaryBody(binaryBody);
+						requestStructure.setIsBynaryBody(true);
+					}
+					else
+					{
+						requestStructure.setIsBynaryBody(false);
+						JOptionPane.showMessageDialog(null, "Unable to perform request with empty binary body");
+						return;
+					}
+				}
+				RequestSender s = new RequestSender(requestStructure);
+				response = new ResponceStructure(s.execute());
+				responceHeadersField.setText("Status code : "+response.getStatusCode().value()+" ("+response.getStatusCode().getReasonPhrase()+")\n\n"+response.getHeadersAsString());
+				responceBodyField.setText(response.getBody());
+				if (TextData.findSecurityToken(responceBodyField.getText()))
+				{
+					securityToken = TextData.getSecurityToken();
+					applySecurityToken.setEnabled(true);
+				}
+				if (TextData.findObjectId(responceHeadersField.getText()))
+				{
+					objectId = TextData.getObjectId();
+					applyObjectId.setEnabled(true);
+				}
+				if (TextData.findObjectVersion(responceHeadersField.getText()))
+				{
+					objectVersion = TextData.getObjectVersion();
+					applyVersionId.setEnabled(true);
+				}
+				if (TextData.findObjectStepId(responceHeadersField.getText()))
+				{
+					objectStepId = TextData.getObjectStepId();
+					applyStepId.setEnabled(true);
+				}
+				if (TextData.findObjectInstanceId(responceHeadersField.getText()))
+				{
+					objectInstanceId = TextData.getObjectInstanceId();
+					applyObjectInstance.setEnabled(true);
+				}
+			} catch (HttpClientErrorException e1)
+			{
+				responceHeadersField.setText(e1.getMessage());
+				responceBodyField.setText(e1.getResponseBodyAsString());
+			} catch (RuntimeException | IOException e1)
+			{
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e1.printStackTrace(pw);
+
+				responceHeadersField.setText(e1.getMessage());
+				responceBodyField.setText(sw.toString());
+			} 
+		}
+	}
+
+	private class RequestExampleAction implements ActionListener
+	{
+		@SuppressWarnings("unchecked")
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			RequestStructure example = new RequestStructure();
+			JComboBox<String> sourceObject = (JComboBox<String>) e.getSource();
+			String requestName = sourceObject.getSelectedItem().toString();
+			example.loadFromResources(requestName);
+			headersField.setText(example.getHeaders());
+			bodyField.setText(example.getBody());
+			if (prefixChecked.isSelected())
+				url.setText(prefix.getSelectedItem().toString() + example.getUrl());
+			else
+				url.setText(example.getUrl());
+			method.setSelectedItem(example.getMethod());
+			lowPanel.setBorder(BorderFactory.createTitledBorder("Request : [" + requestName + "]"));
+		}
+	}
+
+	private class JsonFormat implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			Formatter f;
+			try
+			{
+				f = new Formatter(responceBodyField.getText());
+				responceBodyField.setText(f.getFormattedText());
+			} catch (ParseException e1)
+			{
+				JOptionPane.showMessageDialog(null, "Body format isn't a valid JSON, operation skipped", "Invalid structure",
+						JOptionPane.INFORMATION_MESSAGE, new ImageIcon(Ui.class.getResource("/images/drunk_pony.png")));
+			}
+		}
+	}
+
+	private class UseSecurityToken implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			String newText = TextData.replaceSecurityToken(headersField.getText(), securityToken);
+			if (newText != null)
+				headersField.setText(newText);
+		}
+	}
+
+	private class UseObjectStepId implements ActionListener
+	{
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			String newText = TextData.replaceObjectStepId(headersField.getText(), objectStepId);
+			if (newText != null)
+				headersField.setText(newText);
+			newText = TextData.replaceObjectStepIdInBody(bodyField.getText(), objectStepId);
+			if (newText != null)
+				bodyField.setText(newText);
+		}
+	}
+
+	private class UseObjectVersion implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			String newText = TextData.replaceVersionId(headersField.getText(), objectVersion);
+			if (newText != null)
+				headersField.setText(newText);
+		}
+	}
+
+	private class UseObjectId implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			String newText = TextData.replaceObjectId(url.getText(), objectId);
+			if (newText != null)
+				url.setText(newText);
+		}
+	}
+
+	private class UseObjectInstanceId implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			String newText = TextData.replaceObjectInstanceId(url.getText(), objectInstanceId);
+			if (newText != null)
+				url.setText(newText);
+		}
+	}
+
+	private class ApplyApplicationKey implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if (TextData.findApplicationKey(headersField.getText()))
+				return;
+			String tmp = headersField.getText();
+			String accessKeyHeader = "Application-Key: " + Utils.getApplicationKey();
+			if ((tmp.length() > 0) && (tmp.charAt(tmp.length() - 1) != '\n'))
+				accessKeyHeader = "\n" + accessKeyHeader;
+			headersField.setText(tmp + accessKeyHeader);
+		}
+	}
+
+	private class ShowHelpWindow implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if (helpWindow.isVisible())
+			{
+				helpWindow.setState(JFrame.NORMAL);
+				helpWindow.toFront();
+				return;
+			}
+			helpWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			helpWindow.setVisible(true);
+			helpWindow.setBounds(400, 400, 600, 600);
+		}
+	}
+	
+	private class ChangeBodyMode implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			setBinaryPanelTitle();
+		}
+	}
+	
+	private class BrowseFileSystem implements ActionListener 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			JFileChooser dialog = new JFileChooser();
+			dialog.setMultiSelectionEnabled(false);
+			if(dialog.showOpenDialog(Ui.this) == JFileChooser.APPROVE_OPTION)
+				pathToBinaryFile.setText(dialog.getSelectedFile().getAbsolutePath());
+		}
+	}
+	
+	private class ApplyBinaryFile implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if(pathToBinaryFile.getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(null, "File path is empty");
+				return;
+			}
+			binaryBody = Utils.readBinaryFile(new File(pathToBinaryFile.getText()));
+			setBinaryPanelTitle();
+		}
+	}
+}

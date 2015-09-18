@@ -1,0 +1,11 @@
+{
+  "navigationType":"BACK",
+  "objectID":"objectId",
+  "variableSet":"agentInfoSet",
+  "param":[
+     { 
+       "paramName":"objectID",
+       "paramValue":"enteredValue"
+     }
+   ]
+}

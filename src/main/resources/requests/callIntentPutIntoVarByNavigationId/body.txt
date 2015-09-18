@@ -1,0 +1,6 @@
+{
+  "customVarSet": [{
+    "key": "varName",
+    "value": "varValue"
+  }]
+}

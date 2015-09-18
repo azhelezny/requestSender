@@ -1,0 +1,12 @@
+{
+   "navigationType": "RELOAD_ELEMENT",
+      "variables": {
+         "MyBoolean": false,
+         "MyString": "wtf!!!!",
+         "MyNumber": 100500
+      },
+   "param": [{
+      "paramName": "objectID",
+      "paramValue": "enteredValue"
+   }]
+}

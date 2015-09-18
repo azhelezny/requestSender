@@ -1,0 +1,38 @@
+{
+  "restIntegrationPoint": {
+    "id": "51b06b90e383062eebb8de18",
+    "name": "newSimpleRestIp",
+    "description": "newSimpleRestIp",
+    "state": "DRAFT",
+    "lastModified": 1370517329525,
+    "type": "REST",
+    "serviceMethod": {
+      "requestMethodType": "GET",
+      "methodName": "GET",
+      "endpointUrl": "http://172.23.33.38:8080/test.rest.service/restSimple/hardcoreJson",
+      "requestHeaders": "Content-Type:application/json",
+      "requestBody": "",
+      "requestMapping": [],
+      "responseStatusCodeMapping": {
+        "name": "responseStatusCodeMapping",
+        "type": "STRING",
+        "variableType": "TEXT",
+        "variableName": "newStatusCode"
+      },
+      "responseHeadersMapping": [{
+        "name": "date",
+        "type": "STRING",
+        "variableType": "TEXT",
+        "variableName": "newDate"
+      }],
+      "responseBodyParsingMode": "MULTIPLE_VARIABLES",
+      "responseMapping": [{
+        "name": "integer",
+        "type": "STRING",
+        "variableType": "TEXT",
+        "variableName": "newResult"
+      }],
+      "_type": "restServiceMethod"
+    }
+  }
+}

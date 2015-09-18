@@ -1,0 +1,1 @@
+/interact/resources/metadata/images/imageName/deviceId

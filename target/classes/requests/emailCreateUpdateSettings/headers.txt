@@ -1,0 +1,12 @@
+Accept: */*
+Access-Token: securityToken
+Content-Type: application/json
+Connection: Close
+Referer: http://172.23.33.43:8080/ws_rest/resttest.html
+Access-Token: acessToken
+Accept-Language: en-us
+Accept-Encoding: gzip, deflate
+User-Agent: Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)
+Host: 172.23.33.43:8080
+Content-Length: 744
+Cache-Control: no-cache

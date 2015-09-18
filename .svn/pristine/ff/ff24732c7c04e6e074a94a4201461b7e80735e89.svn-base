@@ -1,0 +1,6 @@
+Host: sisvbox-azhelez:8080
+User-Agent: Jakarta Commons-HttpClient/3.1
+Access-Token: accessToken
+Content-Type: application/json; charset=UTF-8
+Folder: aG9tZQ==
+Content-Length:322

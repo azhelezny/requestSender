@@ -1,0 +1,40 @@
+{
+  "soapIntegrationPoint": {
+    "name": "simpleWsdlIp",
+    "description": "simpleWsdlIp",
+    "state": "DRAFT",
+    "type": "SOAP",
+    "serviceMethod": {
+      "methodName": "simpleStringValidation",
+      "endpointUrl": "http://172.23.33.38:8080/test.wsdl.service/TestServices",
+      "namespace": "http://services.test/",
+      "responseMapping": [{
+        "name": "simpleStringValidationResponse.valStatus",
+        "type": "STRING",
+        "variableType": "TEXT",
+        "variableName": "vStatus"
+      },
+      {
+        "name": "simpleStringValidationResponse.valMessage",
+        "type": "STRING",
+        "variableType": "TEXT",
+        "variableName": "vMessage"
+      },
+      {
+        "name": "simpleStringValidationResponse.valGarbage",
+        "type": "STRING",
+        "variableType": "TEXT",
+        "variableName": "vGarbage"
+      }],
+      "requestMapping": [{
+        "name": "simpleStringValidation",
+        "type": "STRING",
+        "variableType": "TEXT",
+        "variableName": "varString",
+        "namespace": "http://www.w3.org/2001/XMLSchema"
+      }],
+      "_type": "soapServiceMethod"
+    },
+    "wsdlSourceUrl": "http://172.23.33.38:8080/test.wsdl.service/TestServices?wsdl"
+  }
+}

@@ -1,0 +1,9 @@
+Host: sisvbox-azhelez:8080
+Connection: keep-alive
+lastModified: 1370450805609
+Security-Token: securityToken
+Content-Type: application/json
+Referer: http://sisvbox-azhelez:8080/ws_rest/interaction/list
+Screen-Width: 480
+Screen-Height: 800
+Content-Length:0

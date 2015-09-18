@@ -1,0 +1,19 @@
+{
+  "keys": [{
+    "enabled": false,
+    "id": "requestSender",
+    "grantType": "",
+    "clientId": "requestSender",
+    "accessTokenUri": "http://interact-win:8080/as_auth/oauth/authorize",
+    "scope": ["scope"],
+    "clientSecret": "secretKey",
+    "clientAuthenticationScheme": "",
+    "authenticationScheme": "",
+    "tokenName": "",
+    "userAuthorizationUri": "http://interact-win:8080/as_auth/oauth/login",
+    "internalTimeout": "600",
+    "authenticationType": "authorization_code",
+    "cookieName": "cookieName",
+    "redirectUrl": "http://redirect.url.com"
+    }]
+}
