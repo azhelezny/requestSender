@@ -9,4 +9,5 @@ public enum RestMethod {
     PUT,
     GET,
     DELETE
+    //OPTIONS
 }

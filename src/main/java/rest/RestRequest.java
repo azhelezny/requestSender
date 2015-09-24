@@ -12,6 +12,17 @@ public class RestRequest {
     private RestMethod method;
     private Map<String, String> headers = new HashMap<String, String>();
     private String body;
+    private byte[] binaryBody = null;
+
+    public boolean isBinaryBody() {
+        return isBinaryBody;
+    }
+
+    public void setIsBinaryBody(boolean isBinaryBody) {
+        this.isBinaryBody = isBinaryBody;
+    }
+
+    private boolean isBinaryBody = false;
 
     public RestRequest(String url, RestMethod method) {
         this.url = url;
@@ -44,6 +55,14 @@ public class RestRequest {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public byte[] getBinaryBody() {
+        return binaryBody;
+    }
+
+    public void setBinaryBody(byte[] binaryBody) {
+        this.binaryBody = binaryBody;
     }
 
     @Override
