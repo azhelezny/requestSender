@@ -1,4 +1,0 @@
-Content-Type: application/json
-Object-Instance-Id: objectInstaceId
-Access-Token: acessToken
-Time-Zone: Eastern European Time

@@ -1,5 +1,0 @@
-{
-    "name":"someName", 
-    "description":"simple folder", 
-    "parentId":"527371d6caa206dd85390be1"  
-}

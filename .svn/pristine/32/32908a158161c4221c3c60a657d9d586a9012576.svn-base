@@ -1,8 +1,0 @@
-Host: interact-win:8080
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:12.0) Gecko/20100101 Firefox/12.0
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-Accept-Language: ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Connection: keep-alive
-Security-Token: security token
-Referer: http://interact-win:8080/ws%5Frest/usertest.html

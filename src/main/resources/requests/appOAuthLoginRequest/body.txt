@@ -1,1 +1,0 @@
-User-Id=jaadmin%40jacada.ru&Tenant-Id=12345678&User-Password=Jacada2013%21%40&redirect_uri=http%3A%2F%2F172.23.33.43%3A8080%2Fjas%2Fversion%2F1%2Faccount%2F12345678%2Finteraction%2F51533728e383fdb05e280eff%3FApplication-Key%3DrequestSender&response_type=code&scope=read&state=1wAweQ&client_id=requestSender

@@ -1,2 +1,0 @@
-Access-Token: accessToken
-Host: 172.23.33.48:8080

@@ -1,2 +1,0 @@
-Access-Token: securityToken
-Content-Type: application/json

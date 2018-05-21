@@ -1,6 +1,0 @@
-{ 
-  "phoneNumber" : "380679573002",
-  "dnId" : "3002",
-  "groupName" : "request.sender", 
-  "enabled" : true 
-}

@@ -1,6 +1,0 @@
-{
- "name" : "jaadmin",
- "phoneNumber" : "067 95 73 002",
- "emailFrom" : "test1@test.edu",
- "message" : "this is a check of 'contact us' functionality performed by request.sender"
-}

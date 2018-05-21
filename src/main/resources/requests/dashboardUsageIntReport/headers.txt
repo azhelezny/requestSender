@@ -1,8 +1,0 @@
-Access-Token: accessToken
-Accept: */*
-Accept-Language: ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3
-Accept-Encoding: gzip, deflate
-Connection: keep-alive
-Content-Type: application/json; charset=UTF-8
-Content-Length:322
-Cache-Control: no-cache

@@ -1,9 +1,0 @@
-{
-  "navigationType":"NEXT",
-  "param":[
-     { 
-       "paramName":"objectID",
-       "paramValue":"enteredValue"
-     }
-   ]
-}

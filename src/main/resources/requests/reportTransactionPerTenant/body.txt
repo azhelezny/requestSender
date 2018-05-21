@@ -1,7 +1,0 @@
-{
-  "tenantId":"",
-  "userId":"",
-  "from":null,
-  "to":null,
-  "designerId":""
-}

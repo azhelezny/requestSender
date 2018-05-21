@@ -1,8 +1,0 @@
-{
-  "tenantId":null,
-  "userId":null,
-  "designerId":null,
-  "interactionInstanceId":null,
-  "from":null,
-  "to":null
-}
