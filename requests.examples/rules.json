@@ -1,0 +1,66 @@
+[
+  {
+    "caption": "Apply Cookies",
+    "source": {
+      "collectFrom": ["VALUE"],
+      "type": "VALUE",
+      "value": "Set-Cookie: pish=drish"
+    },
+    "destination": [
+      {
+        "applyTo": ["REQUEST_HEADERS"],
+        "type": "VALUE"
+      }
+    ]
+  },
+  {
+    "caption": "Apply Token",
+    "source": {
+      "collectFrom": ["RESPONSE_BODY"],
+      "type": "REGEX",
+      "regex": {
+        "value": "(token)\"\\s*:\\s*\"([^\"]*)\"",
+        "group": 2
+      }
+    },
+    "destination": [
+      {
+        "applyTo": ["REQUEST_HEADERS"],
+        "type": "REGEX",
+        "regex": {
+          "searchPattern": "(Authorization\\s*:\\s*)([^\\n]*)",
+          "replacePattern": "$1${VALUE}"
+        }
+      }
+    ]
+  },
+  {
+    "caption": "Apply Fleet ID",
+    "source": {
+      "collectFrom": ["RESPONSE_BODY"],
+      "type": "REGEX",
+      "regex": {
+        "value": "(fleet_id)\"\\s*:\\s*\"([^\"]*)\"",
+        "group": 2
+      }
+    },
+    "destination": [
+      {
+        "applyTo": ["REQUEST_BODY"],
+        "type": "REGEX",
+        "regex": {
+          "searchPattern": "(fleet_id\\s*\"\\s*:\\s*\"\\s*)([^\"]*)",
+          "replacePattern": "$1${VALUE}"
+        }
+      },
+      {
+        "applyTo": ["REQUEST_URL"],
+        "type": "REGEX",
+        "regex": {
+          "searchPattern": "(fleet_id)",
+          "replacePattern": "${VALUE}"
+        }
+      }
+    ]
+  }
+]
