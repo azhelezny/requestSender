@@ -1,5 +1,4 @@
 {
-  "username": "pish@mailinator.com",
-  "password": "AUTO1234",
-  "application_id": "DISPATCHER_CONTROLLER"
+  "username": "pish@email.com",
+  "password": "pish_pwd"
 }
