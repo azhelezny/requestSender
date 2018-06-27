@@ -19,12 +19,13 @@ import java.util.stream.Collectors;
 
 /**
  * @author Andrey Zhelezny
- *         Date: 4/10/18
+ * Date: 4/10/18
  */
 public class Properties {
     //private final String presetsDir;
     private List<String> presetsGroups = new ArrayList<>();
     private List<String> serversList = new ArrayList<>();
+    private List<String> proxiesList = new ArrayList<>();
     private Map<String, Rule> rules = new LinkedHashMap<>();
     private String presetsDir;
 
@@ -33,7 +34,7 @@ public class Properties {
     private Properties() {
         File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
         String rulesFile;
-        String serversListFile;
+        String serversListFile, proxiesListFile;
 
         if (jarFile.isFile()) {
             // we are working from JAR file
@@ -41,17 +42,19 @@ public class Properties {
             presetsDir = PathUtils.getOsPath(path, "/../requests/presets");
             rulesFile = PathUtils.getOsPath(path, "/../requests/rules.json");
             serversListFile = PathUtils.getOsPath(path, "/../requests/servers.json");
+            proxiesListFile = PathUtils.getOsPath(path, "/../requests/proxies.json");
         } else {
             // we are working from IDE
             String path = System.getProperty("user.dir");
             presetsDir = PathUtils.getOsPath(path, "/requests/presets");
             rulesFile = PathUtils.getOsPath(path, "/requests/rules.json");
             serversListFile = PathUtils.getOsPath(path, "/requests/servers.json");
+            proxiesListFile = PathUtils.getOsPath(path, "/requests/proxies.json");
         }
 
         if (new File(presetsDir).exists()) {
             try {
-                presetsGroups.addAll(PathUtils.getFolderNames(presetsDir).stream().collect(Collectors.toList()));
+                presetsGroups.addAll(new ArrayList<>(PathUtils.getFolderNames(presetsDir)));
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Unable to process list of presets: " + e.getMessage());
                 throw new RuntimeException(e);
@@ -63,6 +66,17 @@ public class Properties {
                 JSONArray serverList = new JSONObject(CommonUtils.readFileToString(serversListFile)).getJSONArray("servers");
                 for (int i = 0; i < serverList.length(); i++)
                     serversList.add(serverList.get(i).toString());
+            } catch (ParseException e) {
+                JOptionPane.showMessageDialog(null, "Unable to process list of servers: " + e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (new File(proxiesListFile).exists()) {
+            try {
+                JSONArray proxyList = new JSONObject(CommonUtils.readFileToString(proxiesListFile)).getJSONArray("proxies");
+                for (int i = 0; i < proxyList.length(); i++)
+                    proxiesList.add(proxyList.get(i).toString());
             } catch (ParseException e) {
                 JOptionPane.showMessageDialog(null, "Unable to process list of servers: " + e.getMessage());
                 throw new RuntimeException(e);
@@ -91,6 +105,10 @@ public class Properties {
 
     public List<String> getServersList() {
         return serversList;
+    }
+
+    public List<String> getProxiesList() {
+        return proxiesList;
     }
 
     public Map<String, Rule> getRulesMap() {

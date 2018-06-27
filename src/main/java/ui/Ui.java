@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Ui extends JFrame {
     private static final long serialVersionUID = -2669800895909059399L;
@@ -51,9 +52,11 @@ public class Ui extends JFrame {
     private JCheckBox binaryBodyMode;
     private JCheckBox storeBodyToFile;
     private JCheckBox prefixChecked = new JCheckBox();
+    private JCheckBox useProxyChecked = new JCheckBox();
 
     private JComboBox<RestMethod> method;
     private JComboBox<String> prefix = new JComboBox<>();
+    private JComboBox<String> proxy = new JComboBox<>();
 
     private JPanel buttonsPanel = new JPanel();
     private List<JButton> rulesButton = new ArrayList<>();
@@ -151,6 +154,9 @@ public class Ui extends JFrame {
         prefix.setEditable(true);
         Properties.get().getServersList().forEach(prefix::addItem);
 
+        proxy.setEditable(true);
+        Properties.get().getProxiesList().forEach(proxy::addItem);
+
         List<JComboBox<String>> examples = new ArrayList<>();
         for (String group : Properties.get().getPresetsGroups()) {
             JComboBox<String> requestExample = new JComboBox<>();
@@ -182,21 +188,26 @@ public class Ui extends JFrame {
         JPanel prefixPanel = new JPanel();
         prefixPanel.setLayout(new BoxLayout(prefixPanel, BoxLayout.LINE_AXIS));
         prefixPanel.setBorder(BorderFactory.createTitledBorder("Url prefix"));
-        prefixPanel.setPreferredSize(new Dimension(450, 0));
         prefixPanel.add(prefixChecked);
         prefixPanel.add(prefix);
 
-        JPanel appKeyTenantMethodGroupPanel = new JPanel();
-        appKeyTenantMethodGroupPanel.setLayout(new BoxLayout(appKeyTenantMethodGroupPanel, BoxLayout.LINE_AXIS));
-        appKeyTenantMethodGroupPanel.add(method);
+        JPanel proxyPanel = new JPanel();
+        proxyPanel.setLayout(new BoxLayout(proxyPanel, BoxLayout.LINE_AXIS));
+        proxyPanel.setBorder(BorderFactory.createTitledBorder("Proxy settings"));
+        proxyPanel.add(useProxyChecked);
+        proxyPanel.add(proxy);
 
-        JPanel urlPrefixGroupPanel = new JPanel(new BorderLayout());
-        urlPrefixGroupPanel.add(prefixPanel, BorderLayout.WEST);
-        urlPrefixGroupPanel.add(urlPanel, BorderLayout.CENTER);
+        JPanel methodGroupPanel = new JPanel();
+        methodGroupPanel.setLayout(new BoxLayout(methodGroupPanel, BoxLayout.LINE_AXIS));
+        methodGroupPanel.add(method);
+
+        JPanel prefixProxyPanel = new JPanel(new BorderLayout());
+        prefixProxyPanel.add(prefixPanel, BorderLayout.CENTER);
+        prefixProxyPanel.add(proxyPanel, BorderLayout.WEST);
 
         JPanel restConfigurationPanel = new JPanel(new BorderLayout());
-        restConfigurationPanel.add(appKeyTenantMethodGroupPanel, BorderLayout.WEST);
-        restConfigurationPanel.add(urlPrefixGroupPanel, BorderLayout.CENTER);
+        restConfigurationPanel.add(methodGroupPanel, BorderLayout.WEST);
+        restConfigurationPanel.add(urlPanel, BorderLayout.CENTER);
 
         JPanel examplesPanel = new JPanel();
         examplesPanel.setLayout(new GridLayout(0, 5));
@@ -246,6 +257,7 @@ public class Ui extends JFrame {
         JPanel binaryRestConfigExamplesButtonsPanel = new JPanel();
         binaryRestConfigExamplesButtonsPanel.setLayout(new BoxLayout(binaryRestConfigExamplesButtonsPanel, BoxLayout.Y_AXIS));
         binaryRestConfigExamplesButtonsPanel.add(binaryMainPanel);
+        binaryRestConfigExamplesButtonsPanel.add(prefixProxyPanel);
         binaryRestConfigExamplesButtonsPanel.add(restConfigurationPanel);
         binaryRestConfigExamplesButtonsPanel.add(examplesPanel);
 
@@ -273,6 +285,15 @@ public class Ui extends JFrame {
             request.setUrl(url.getText())
                     .setMethod(restMethod)
                     .setHeaders(headersField.getText());
+
+            if (useProxyChecked.isSelected())
+                try {
+                    String[] proxyParameters = ((String) Objects.requireNonNull(proxy.getSelectedItem())).split(":");
+                    request.setProxy(proxyParameters[0], Integer.valueOf(proxyParameters[1]));
+                } catch (Exception e1) {
+                    responseHeadersField.setText(e1.getMessage());
+                    responseBodyField.setText(CommonUtils.exceptionAsString(e1));
+                }
 
             responseHeadersField.setText("");
             responseBodyField.setText("");

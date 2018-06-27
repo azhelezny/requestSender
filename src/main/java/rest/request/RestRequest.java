@@ -10,6 +10,8 @@ import rest.enums.RestMethod;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +21,11 @@ public class RestRequest {
     private Map<String, String> headersMap = null;
     private String body;
     private byte[] binaryBody;
+    private Proxy proxy;
+
+    public void setProxy(String address, int port) {
+        this.proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(address, port));
+    }
 
     public RestRequest setBody(String body) {
         this.body = body;
@@ -92,6 +99,8 @@ public class RestRequest {
 
     public Response executeBasic(boolean isBinary) throws IOException {
         RestEngine engine = new RestEngine();
+        if (proxy != null)
+            engine.setProxy(this.proxy);
         return engine.sendRequest(this.getOkHttpRequest(isBinary));
     }
 
